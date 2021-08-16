@@ -4,8 +4,8 @@
       <Logo />
     </div>
     <Background />
-    <Footer />
   </div>
+  <Footer />
 </template>
 
 <script lang="ts">
@@ -13,49 +13,74 @@ import { Options, Vue } from "vue-class-component";
 import Background from "./components/Background.vue";
 import Logo from "./components/Logo.vue";
 import Footer from "./components/Footer.vue";
-import { useStore } from 'vuex'
-import { key } from './store/store'
+import { useStore } from "vuex";
+import { key } from "./store/store";
 
 @Options({
   components: {
     Background,
     Logo,
-    Footer
-  }
+    Footer,
+  },
 })
-
 export default class App extends Vue {
-  store = useStore(key)
+  store = useStore(key);
 
   $refs!: {
-    area: HTMLElement
+    area: HTMLElement;
+  };
+
+  mounted() {
+    this.$refs.area.addEventListener(
+      "touchstart",
+      () => {
+        this.clickwrapper();
+      },
+      false
+    );
+
+    this.$refs.area.addEventListener(
+      "mousedown",
+      () => {
+        this.clickwrapper();
+      },
+      false
+    );
+
+    this.$refs.area.addEventListener(
+      "touchend",
+      () => {
+        this.unclickwrapper();
+      },
+      false
+    );
+
+    this.$refs.area.addEventListener(
+      "mouseup",
+      () => {
+        this.unclickwrapper();
+      },
+      false
+    );
+
+    this.updateSocket();
+    setInterval(() => {
+      this.updateSocket();
+    }, 3000);
   }
 
-  mounted () {
-    this.$refs.area.addEventListener("touchstart", () => {
-      this.clickwrapper()
-    }, false);
-
-    this.$refs.area.addEventListener("mousedown", () => {
-      this.clickwrapper()
-    }, false);
-
-    this.$refs.area.addEventListener("touchend", () => {
-      this.unclickwrapper()
-    }, false);
-
-    this.$refs.area.addEventListener("mouseup", () => {
-      this.unclickwrapper()
-    }, false);
+  clickwrapper() {
+    this.store.commit("increment");
+    this.store.commit("click", true);
   }
 
-  clickwrapper () {
-    this.store.commit('increment')
-    this.store.commit('click', true)
+  unclickwrapper() {
+    this.store.commit("click", false);
   }
 
-  unclickwrapper () {
-    this.store.commit('click', false)
+  updateSocket() {
+    console.log("Update Socket");
+    this.store.commit("update_socket", this.$socket);
   }
 }
 </script>
