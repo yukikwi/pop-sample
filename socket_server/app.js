@@ -10,8 +10,32 @@ const io = require("socket.io")(server, {
     }
 });
 
+let score_data = []
+
 io.on('connection', (socket) => {
-  console.log('a user connected');
+    socket.on('pop_data', (data) => {
+        /*
+        data: [
+            {
+                flag: country,
+                score: score of this sec
+            }
+        ]
+        */
+
+        let item = score_data.find(x => x.country == data.country);
+        if (item) {
+            item.score = item.score + data["score"];
+        }
+        else{
+            score_data.push({
+                country: data.country,
+                score: data["score"]
+            })
+        }
+
+        io.emit('pop_leaderboard', score_data);
+    });
 });
 
 server.listen(3000, () => {
