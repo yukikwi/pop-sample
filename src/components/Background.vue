@@ -19,7 +19,25 @@ export default class Counter extends Vue {
 
   @Watch("click")
   updateBG () {
-    this.bg = (this.click === false) ? require('../assets/img/notclick.jpeg') : require('../assets/img/click.jpeg')
+    if(this.store.state.bot === false){
+      this.bg = (this.click === false) ? require('../assets/img/notclick.jpeg') : require('../assets/img/click.jpeg')
+    }
+  }
+
+  @Watch("store.state.bot")
+  botBG () {
+    this.setBgred()
+  }
+
+  mounted () {
+    this.setBgred()
+  }
+
+  setBgred () {
+    console.log(this.store.state.bot)
+    if(this.store.state.bot === true){
+      this.bg = require('../assets/img/bot.png')
+    }
   }
 
   get click():boolean {

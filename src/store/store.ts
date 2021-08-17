@@ -8,6 +8,7 @@ export interface State {
   score: number;
   click: boolean;
   leaderBoard: Array<leaderboardObj>;
+  bot: boolean;
 }
 
 // define injection key
@@ -19,23 +20,38 @@ export const store = createStore<State>({
     score: Number(localStorage.getItem("score")),
     click: false,
     leaderBoard: [],
+    bot: Boolean(String(localStorage.getItem("bot")) === "yes")
   },
   mutations: {
     increment(state) {
-      state.score++;
-      localStorage.setItem("score", String(state.score));
+      if(state.bot === false){
+        state.score++;
+        localStorage.setItem("score", String(state.score));
+      }
     },
     click(state, val) {
-      state.click = val;
+      if(state.bot === false){
+        state.click = val;
+      }
     },
     update_socket(state, socket) {
-      socket.emit("pop_data", {
-        country: "th",
-        score: state.score - state.oldscore,
-      });
+      //Ban bot
+      if((state.score - state.oldscore) > 80) {
+        state.oldscore = state.score;
+        localStorage.setItem("old_score", String(state.oldscore));
+        state.bot = true
+        localStorage.setItem("bot", "yes");
+      }
 
-      state.oldscore = state.score;
-      localStorage.setItem("oldscore", String(state.oldscore));
+      if(state.bot === false){
+        socket.emit("pop_data", {
+          country: "th",
+          score: state.score - state.oldscore,
+        });
+
+        state.oldscore = state.score;
+        localStorage.setItem("old_score", String(state.oldscore));
+      }
     },
     setleaderBoard(state, data) {
       state.leaderBoard = data;
