@@ -3,7 +3,7 @@
     <div v-for="(item, index) in store.state.leaderBoard" :key="item.country">
       <span> {{ index + 1 }} | {{ item.country }} </span>
       <span class="float-right">
-        {{ item.score }}
+        {{ Intl.NumberFormat().format(item.score) }}
       </span>
     </div>
   </div>

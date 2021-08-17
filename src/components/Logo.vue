@@ -2,7 +2,7 @@
   <div class="text-center">
     <h1 class="text-5xl">PopBara</h1>
     <transition :name="transition">
-      <h2 :key="score">{{ score }}</h2>
+      <h2 class="mt-3" :key="score">{{ Intl.NumberFormat().format(score) }}</h2>
     </transition>
   </div>
 </template>

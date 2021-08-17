@@ -17,7 +17,7 @@
 
           <div v-if="!showUp">
             🏆 &nbsp;|&nbsp;&nbsp;&nbsp;{{ leaderboard[0].country }}:
-            {{ leaderboard[0].score }}
+            {{ Intl.NumberFormat().format(leaderboard[0].score) }}
           </div>
           <div v-else class="text-center">Leaderboard</div>
 
