@@ -10,18 +10,17 @@
       'z-20',
     ]"
   >
-    <div class="w-3/4 bg-white rounded-t-md p-3">
+    <div class="w-full lg:w-3/4 bg-white rounded-t-md p-3">
       <div>
         <div class="grid grid-flow-col grid-cols-3 grid-rows-1 gap-4">
           <div v-if="showUp">🏆 &nbsp;|</div>
 
-          <div v-if="!showUp">
+          <div class="col-span-2" v-if="!showUp">
             🏆 &nbsp;|&nbsp;&nbsp;&nbsp;{{ leaderboard[0].country }}:
             {{ Intl.NumberFormat().format(leaderboard[0].score) }}
           </div>
           <div v-else class="text-center">Leaderboard</div>
 
-          <div v-if="!showUp" />
           <div class="text-right" @click="toggleshowUp()">
             |
             <span v-if="!showUp"> ^ </span>
