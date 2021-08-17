@@ -2,23 +2,27 @@
   <div
     class="absolute z-0 w-screen h-screen bg-cover bg-center overflow-hidden"
     :style="{
-      'background-image':
-        click === false
-          ? 'url(\' ' + require('../assets/img/notclick.jpeg') + ' \')'
-          : 'url(\'' + require('../assets/img/click.png') + ' \')',
+      'backgroundImage':'url(\' ' + bg + ' \')'
     }"
   />
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Watch, Vue } from "vue-property-decorator";
 import { useStore } from "vuex";
 import { key } from "../store/store";
 
 export default class Counter extends Vue {
   store = useStore(key);
+  // Default wallpaper
+  bg = require('../assets/img/notclick.jpeg');
 
-  get click() {
+  @Watch("click")
+  updateBG () {
+    this.bg = (this.click === false) ? require('../assets/img/notclick.jpeg') : require('../assets/img/click.jpeg')
+  }
+
+  get click():boolean {
     return this.store.state.click;
   }
 }
