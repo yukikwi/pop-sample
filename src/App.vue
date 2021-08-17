@@ -47,6 +47,15 @@ export default class App extends Vue {
       false
     );
 
+    document.addEventListener(
+      "keydown",
+      () => {
+        this.clickwrapper();
+      },
+      false
+    );
+
+
     this.$refs.area.addEventListener(
       "touchend",
       () => {
@@ -57,6 +66,14 @@ export default class App extends Vue {
 
     this.$refs.area.addEventListener(
       "mouseup",
+      () => {
+        this.unclickwrapper();
+      },
+      false
+    );
+
+    document.addEventListener(
+      "keyup",
       () => {
         this.unclickwrapper();
       },
@@ -79,7 +96,6 @@ export default class App extends Vue {
   }
 
   updateSocket() {
-    console.log("Update Socket");
     this.store.commit("update_socket", this.$socket);
   }
 }
