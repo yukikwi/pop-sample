@@ -10,7 +10,7 @@ app.use(store, key);
 app.use(
   new VueSocketIO({
     debug: true,
-    connection: SocketIO("http://localhost:3000"),
+    connection: SocketIO("https://pop-socket.herokuapp.com"),
     vuex: {
       store,
       actionPrefix: "SOCKET_",
