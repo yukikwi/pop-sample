@@ -6,8 +6,7 @@
     "vue:serve": "vue-cli-service serve",
     "vue:build": "vue-cli-service build",
     "vue:lint": "vue-cli-service lint",
-    "start:socket": "node socket_server/app.js",
-    "heroku-postbuild": "\"$npm_execpath\" run start:socket"
+    "start:socket": "node socket_server/app.js"
   },
   "dependencies": {
     "autoprefixer": "^9",
