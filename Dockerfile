@@ -4,3 +4,4 @@ WORKDIR /usr/src/app
 COPY . .
 EXPOSE 3000
 RUN npm install
+CMD ["node", "./socket_server/app.js"]
