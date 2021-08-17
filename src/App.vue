@@ -25,12 +25,24 @@ import { key } from "./store/store";
 })
 export default class App extends Vue {
   store = useStore(key);
+  country = 'UNKNOW'
 
   $refs!: {
     area: HTMLElement;
   };
 
-  mounted() {
+  async mounted() {
+    try{
+      const request = await fetch("https://ipinfo.io/json?token="+process.env.VUE_APP_IPINFO)
+      const json = await request.json()
+
+      this.country = json.country
+    }
+    catch (e) {
+      alert('Please allow ipinfo.io to make server can detect your country (If not your country is UNKNOW)')
+    }
+
+    // Input event
     this.$refs.area.addEventListener(
       "touchstart",
       () => {
@@ -96,7 +108,7 @@ export default class App extends Vue {
   }
 
   updateSocket() {
-    this.store.commit("update_socket", this.$socket);
+    this.store.commit("update_socket", {socket: this.$socket, country: this.country});
   }
 }
 </script>

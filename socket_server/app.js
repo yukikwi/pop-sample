@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+
+// Socket server
 const io = require("socket.io")(server, {
     cors: {
         origin: ["http://localhost:8080", "https://pop-sample.vercel.app"],
@@ -10,6 +12,7 @@ const io = require("socket.io")(server, {
     }
 });
 
+// Store score in memory
 let score_data = []
 
 io.on('connection', (socket) => {
@@ -34,7 +37,7 @@ io.on('connection', (socket) => {
             })
         }
 
-        io.emit('pop_leaderboard', score_data);
+        io.emit('pop_leaderboard', score_data.sort((a, b)=> { return b.score - a.score }));
     });
 });
 

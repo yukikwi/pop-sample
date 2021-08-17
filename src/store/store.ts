@@ -34,7 +34,7 @@ export const store = createStore<State>({
         state.click = val;
       }
     },
-    update_socket(state, socket) {
+    update_socket(state, data) {
       //Ban bot
       if((state.score - state.oldscore) > 80) {
         state.oldscore = state.score;
@@ -44,8 +44,8 @@ export const store = createStore<State>({
       }
 
       if(state.bot === false){
-        socket.emit("pop_data", {
-          country: "th",
+        data.socket.emit("pop_data", {
+          country: data.country,
           score: state.score - state.oldscore,
         });
 
