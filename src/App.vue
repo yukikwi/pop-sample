@@ -25,21 +25,24 @@ import { key } from "./store/store";
 })
 export default class App extends Vue {
   store = useStore(key);
-  country = 'UNKNOW'
+  country = "UNKNOW";
 
   $refs!: {
     area: HTMLElement;
   };
 
   async mounted() {
-    try{
-      const request = await fetch("https://ipinfo.io/json?token="+process.env.VUE_APP_IPINFO)
-      const json = await request.json()
+    try {
+      const request = await fetch(
+        "https://ipinfo.io/json?token=" + process.env.VUE_APP_IPINFO
+      );
+      const json = await request.json();
 
-      this.country = json.country
-    }
-    catch (e) {
-      alert('Please allow ipinfo.io to make server can detect your country (If not your country is UNKNOW)')
+      this.country = json.country;
+    } catch (e) {
+      alert(
+        "Please allow ipinfo.io to make server can detect your country (If not your country is UNKNOW)"
+      );
     }
 
     // Input event
@@ -66,7 +69,6 @@ export default class App extends Vue {
       },
       false
     );
-
 
     this.$refs.area.addEventListener(
       "touchend",
@@ -108,7 +110,10 @@ export default class App extends Vue {
   }
 
   updateSocket() {
-    this.store.commit("update_socket", {socket: this.$socket, country: this.country});
+    this.store.commit("update_socket", {
+      socket: this.$socket,
+      country: this.country,
+    });
   }
 }
 </script>

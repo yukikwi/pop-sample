@@ -20,30 +20,30 @@ export const store = createStore<State>({
     score: Number(localStorage.getItem("score")),
     click: false,
     leaderBoard: [],
-    bot: Boolean(String(localStorage.getItem("bot")) === "yes")
+    bot: Boolean(String(localStorage.getItem("bot")) === "yes"),
   },
   mutations: {
     increment(state) {
-      if(state.bot === false){
+      if (state.bot === false) {
         state.score++;
         localStorage.setItem("score", String(state.score));
       }
     },
     click(state, val) {
-      if(state.bot === false){
+      if (state.bot === false) {
         state.click = val;
       }
     },
     update_socket(state, data) {
       //Ban bot
-      if((state.score - state.oldscore) > 80) {
+      if (state.score - state.oldscore > 80) {
         state.oldscore = state.score;
         localStorage.setItem("old_score", String(state.oldscore));
-        state.bot = true
+        state.bot = true;
         localStorage.setItem("bot", "yes");
       }
 
-      if(state.bot === false){
+      if (state.bot === false) {
         data.socket.emit("pop_data", {
           country: data.country,
           score: state.score - state.oldscore,
